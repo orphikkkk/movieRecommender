@@ -32,12 +32,12 @@ class MoviesController extends Controller
 
         $newMovie = new Movies;
 //        if($request->hasFile('poster')){
-            $request->validate([
-                'poster' =>'image|mimes:jpeg,bmp,png,jpg'
-            ]);
-            $imageName = 'mov_'. $request->get('title') . '.' .$request->file('poster')->extension();
-            $request->file('poster')->move(public_path('images'), $imageName);
-            $newMovie->poster = $imageName;
+//            $request->validate([
+//                'poster' =>'image|mimes:jpeg,bmp,png,jpg'
+//            ]);
+//            $imageName = 'mov_'. $request->get('title') . '.' .$request->file('poster')->extension();
+//            $request->file('poster')->move(public_path('images'), $imageName);
+//            $newMovie->poster = $imageName;
 //        }
 
         $newMovie->title = $request->get('title');
@@ -45,7 +45,7 @@ class MoviesController extends Controller
         $newMovie->release_date = $request->get('releaseDate');
         $newMovie->save();
 
-        return view('Movies.movies');
+        return redirect(route('movies'));
     }
 
     public function show(Movies $movies)
@@ -66,12 +66,15 @@ class MoviesController extends Controller
     public function update(Request $request)
     {
 //        dd($request->all());
+        $publish = ($request->get('publish') == 'on') ? 1 : 0;
         $movies = Movies::query()->whereid($request->get('id'))->first();
             $movies->title = $request->get('title');
             $movies->description = $request->get('description');
             $movies->release_date = $request->get('releaseDate');
+            $movies->published = $publish;
         $movies->save();
-        return view('Movies.movies');
+
+        return redirect(route('movies'));
     }
 
     public function destroy(Movies $movies)

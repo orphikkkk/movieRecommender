@@ -32,20 +32,27 @@
                             <textarea name="description"
                                       id="description" cols="30" rows="10"
                                       class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 block mt-1 w-full"
-                            >
-                                     {{$movies->description}}
+                            >{{$movies->description}}
                             </textarea>
                         </div>
 
                         <!-- Release Date -->
                         <div class="mt-4">
-                            <x-label for="releaseDate" :value="__('Release date')" />
+                            <div class="flex flex-wrap">
+                                <div>
+                                    <x-label for="releaseDate" :value="__('Release date')" />
 
-                            <x-input id="releaseDate" class="block mt-1 w-full"
-                                     type="date"
-                                     name="releaseDate"
-                                     value="{{$movies->release_date}}"
-                                      />
+                                    <x-input id="releaseDate" class="block mt-1 w-full"
+                                             type="date"
+                                             name="releaseDate"
+                                             value="{{$movies->release_date}}"
+                                    />
+                                </div>
+                                <div class="mt-6 ml-6">
+                                    <input type="checkbox" {{($movies->published) ? "checked" : ""}} name="publish"> Published
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- Poster -->

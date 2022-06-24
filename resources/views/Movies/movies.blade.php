@@ -1,17 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight inline-block">
-            {{ __('Movies') }}
-        </h2>
+        <div class="grid">
+            <div class="col-start-1">
+                 <span class="font-semibold text-xl text-gray-800 leading-tight inline-block">
+                    {{ __('Movies') }}
+                </span>
+            </div>
+            <div class="col-start-2 justify-self-end">
+                <a class="
+            inline-block px-6 py-2.5 bg-green-300 text-black font-medium text-sm leading-tight uppercase rounded shadow-md hover:bg-green-400 hover:shadow-lg focus:bg-green-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-400 active:shadow-lg transition duration-150 ease-in-out" href="{{url('movies/create')}}"
+                >Create
+                </a>
+            </div>
+        </div>
+
+
+            {{--                <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>--}}
     </x-slot>
 
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="flex space-x-2 mb-2">
-                <a href="{{url('movies/create')}}">Create</a>
-{{--                <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">Button</button>--}}
-            </div>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h3 class="font-semibold text-lg text-gray-800 leading-tight">
@@ -62,13 +72,13 @@
                                                     {{$movie->release_date}}
                                                 </td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                                    {{($movie->release_date) ? 'Published' : 'Not Published'}}
+                                                    {{($movie->published) ? 'Published' : 'Not Published'}}
                                                 </td>
                                                 <td class="text-sm text-gray-900 font-light px-6 py-4 text-center whitespace-nowrap">
                                                     {{$movie->likes}}
                                                 </td>
                                                 <td class="text-sm font-light px-6 py-4">
-                                                    <a class="px-6 py-2.5 bg-yellow-500 text-white" href="movies/edit/{{$movie->id}}">Edit</a>
+                                                    <a class="px-6 py-2.5 bg-yellow-500 text-white" href="/movies/edit/{{$movie->id}}">Edit</a>
                                                 </td>
                                             </tr>
                                         @endforeach
