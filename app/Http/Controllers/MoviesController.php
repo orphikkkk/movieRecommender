@@ -6,6 +6,7 @@ use App\Models\Movies;
 use App\Models\User;
 use App\Models\UserMovie;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\Types\AbstractList;
 
 class MoviesController extends Controller
@@ -120,6 +121,17 @@ class MoviesController extends Controller
         $favourite->save();
 
         Movies::whereid($id)->increment('likes',1);
+        $movieName = Movies::query()->whereid($id)->first()->title;
+        $userName = auth()->user()->name;
+        $userEmail = auth()->user()->email;
+        $data =[
+            'title'=>$movieName
+        ];
+        Mail::send(['text'=>'mail'], $data, function($message) use ($userName,$userEmail) {
+            $message->to($userEmail, $userName)->subject
+            ('Favourite Movie');
+            $message->from('sajagtrad@gmail.com','Sajag Dhungana');
+        });
 
         return redirect(route('main'));
     }
