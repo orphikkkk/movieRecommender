@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,8 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('movies/update',[MoviesController::class,'update'])->name('movies.update');
     Route::get('movies/unfavourite/{id}',[MoviesController::class,'unfavourite'])->name('movies.unfavourite');
     Route::get('movies/favourite/{id}',[MoviesController::class,'favourite'])->name('movies.favourite');
+
+    Route::get('users',[UsersController::class,'index'])->name('users');
 //    Route::view('movies','movies')->name('movies');
 });
 

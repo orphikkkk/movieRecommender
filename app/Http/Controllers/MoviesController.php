@@ -57,14 +57,14 @@ class MoviesController extends Controller
         ]);
 
         $newMovie = new Movies;
-//        if($request->hasFile('poster')){
-//            $request->validate([
-//                'poster' =>'image|mimes:jpeg,bmp,png,jpg'
-//            ]);
-//            $imageName = 'mov_'. $request->get('title') . '.' .$request->file('poster')->extension();
-//            $request->file('poster')->move(public_path('images'), $imageName);
-//            $newMovie->poster = $imageName;
-//        }
+        if($request->hasFile('poster')){
+            $request->validate([
+                'poster' =>'image|mimes:jpeg,bmp,png,jpg'
+            ]);
+            $imageName = 'mov_'. $request->get('title') . '.' .$request->file('poster')->extension();
+            $request->file('poster')->move(public_path('images'), $imageName);
+            $newMovie->poster = $imageName;
+        }
 
         $newMovie->title = $request->get('title');
         $newMovie->description = $request->get('description');
@@ -98,6 +98,14 @@ class MoviesController extends Controller
             $movies->description = $request->get('description');
             $movies->release_date = $request->get('releaseDate');
             $movies->published = $publish;
+        if($request->hasFile('poster')){
+            $request->validate([
+                'poster' =>'image|mimes:jpeg,bmp,png,jpg'
+            ]);
+            $imageName = 'mov_'. $request->get('title') . '.' .$request->file('poster')->extension();
+            $request->file('poster')->move(public_path('images'), $imageName);
+            $movies->poster = $imageName;
+        }
         $movies->save();
 
         return redirect(route('movies'));

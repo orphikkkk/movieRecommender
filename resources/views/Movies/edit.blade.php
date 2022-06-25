@@ -16,7 +16,7 @@
                     <!-- Validation Errors -->
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                    <form method="POST" action="{{route("movies.update")}}">
+                    <form method="POST" action="{{route("movies.update")}}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{$movies->id}}">
                         <!-- Title -->

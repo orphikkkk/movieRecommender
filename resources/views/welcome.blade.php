@@ -31,7 +31,7 @@
                         @foreach($movies as $movie)
                             <div class="rounded-lg relative shadow-lg bg-white max-w-sm">
                                 <a href="#!">
-                                    <img class="rounded-t-lg" src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" alt=""/>
+                                    <img class="rounded-t-lg h-96" src="images/{{$movie->poster}}" alt=""/>
                                 </a>
                                 <div class="p-6 mb-4">
                                         <h5 class="text-gray-900 text-xl font-medium mb-2 h-12">{{$movie->title}}</h5>
