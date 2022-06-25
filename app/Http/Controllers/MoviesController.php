@@ -6,9 +6,14 @@ use App\Models\Movies;
 use App\Models\User;
 use App\Models\UserMovie;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\AbstractList;
 
 class MoviesController extends Controller
 {
+    public function main(){
+        $movies = Movies::query()->wherepublished(1)->with('users')->get();
+        return view('welcome')->with(compact('movies'));
+    }
     public function index()
     {
         $userid = auth()->id();
@@ -17,20 +22,21 @@ class MoviesController extends Controller
         if ($role == 'admin')
             $movies = Movies::all();
         else{
-            $movies = Movies::query()
-                ->select(
-                    'movies.id as id',
-                    'user_movie.id as fav_id',
-                    'movies.title as title',
-                    'movies.description as description',
-                    'movies.release_date as release_date',
-                    'movies.poster as poster',
-                    'movies.published as published',
-                    'movies.likes as likes'
-                )
-                ->join('user_movie','movies.id','=','user_movie.movie_id')
-                ->where('user_movie.user_id','=',$userid)
-                ->get();
+            $movies = Movies::query()->with('users')->whereRelation('users','user_id',$userid)->get();
+//            $movies = Movies::query()
+//                ->select(
+//                    'movies.id as id',
+//                    'user_movie.id as fav_id',
+//                    'movies.title as title',
+//                    'movies.description as description',
+//                    'movies.release_date as release_date',
+//                    'movies.poster as poster',
+//                    'movies.published as published',
+//                    'movies.likes as likes'
+//                )
+//                ->join('user_movie','movies.id','=','user_movie.movie_id')
+//                ->where('user_movie.user_id','=',$userid)
+//                ->get();
         }
         return view('Movies.movies')->with(compact('movies'));
     }
@@ -96,10 +102,28 @@ class MoviesController extends Controller
 
         return redirect(route('movies'));
     }
+    public function favourite($id)
+    {
+        $userId = auth()->id();
+        $movieId = $id;
+        $favourite = new UserMovie;
+            $favourite->user_id = $userId;
+            $favourite->movie_id = $movieId;
+        $favourite->save();
+
+        Movies::whereid($id)->increment('likes',1);
+
+        return redirect(route('main'));
+    }
     public function unfavourite($id)
     {
-        $favourite = UserMovie::query()->whereid($id)->first();
+        $favourite = UserMovie::query()->wheremovie_id($id)->whereuser_id(auth()->id())->first();
         $favourite->delete();
+
+
+        Movies::query()->whereid($id)->decrement('likes',1);
+
+
 
         return redirect(route('movies'));
     }

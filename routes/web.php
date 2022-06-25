@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[MoviesController::class,'main'])->name('main');
 
 Route::group(['middleware' => 'auth'], function (){
     Route::get('/dashboard', function () {
@@ -29,6 +27,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('movies/edit/{id}',[MoviesController::class,'edit'])->name('movies.edit');
     Route::post('movies/update',[MoviesController::class,'update'])->name('movies.update');
     Route::get('movies/unfavourite/{id}',[MoviesController::class,'unfavourite'])->name('movies.unfavourite');
+    Route::get('movies/favourite/{id}',[MoviesController::class,'favourite'])->name('movies.favourite');
 //    Route::view('movies','movies')->name('movies');
 });
 

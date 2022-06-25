@@ -85,7 +85,7 @@
                                                 </td>
                                                 @else
                                                 <td class="text-sm font-light px-6 py-4">
-                                                    <a href="/movies/unfavourite/{{$movie->fav_id}}"> <x-button>Unfavourite</x-button></a>
+                                                    <a href="/movies/unfavourite/{{$movie->id}}"> <x-button>Unfavourite</x-button></a>
                                                 </td>
                                                 @endif
                                             </tr>
