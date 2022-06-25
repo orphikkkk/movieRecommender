@@ -3,15 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Models\Movies;
+use App\Models\User;
+use App\Models\UserMovie;
 use Illuminate\Http\Request;
 
 class MoviesController extends Controller
 {
     public function index()
     {
+        $userid = auth()->id();
+        $role = auth()->user()->role;
 
-        $movies = Movies::all();
-
+        if ($role == 'admin')
+            $movies = Movies::all();
+        else{
+            $movies = Movies::query()
+                ->select(
+                    'movies.id as id',
+                    'user_movie.id as fav_id',
+                    'movies.title as title',
+                    'movies.description as description',
+                    'movies.release_date as release_date',
+                    'movies.poster as poster',
+                    'movies.published as published',
+                    'movies.likes as likes'
+                )
+                ->join('user_movie','movies.id','=','user_movie.movie_id')
+                ->where('user_movie.user_id','=',$userid)
+                ->get();
+        }
         return view('Movies.movies')->with(compact('movies'));
     }
 
@@ -73,6 +93,13 @@ class MoviesController extends Controller
             $movies->release_date = $request->get('releaseDate');
             $movies->published = $publish;
         $movies->save();
+
+        return redirect(route('movies'));
+    }
+    public function unfavourite($id)
+    {
+        $favourite = UserMovie::query()->whereid($id)->first();
+        $favourite->delete();
 
         return redirect(route('movies'));
     }

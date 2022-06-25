@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function (){
     Route::post('movies/store',[MoviesController::class,'store'])->name('movies.store');
     Route::get('movies/edit/{id}',[MoviesController::class,'edit'])->name('movies.edit');
     Route::post('movies/update',[MoviesController::class,'update'])->name('movies.update');
+    Route::get('movies/unfavourite/{id}',[MoviesController::class,'unfavourite'])->name('movies.unfavourite');
 //    Route::view('movies','movies')->name('movies');
 });
 
