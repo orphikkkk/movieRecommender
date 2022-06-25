@@ -24,20 +24,6 @@ class MoviesController extends Controller
             $movies = Movies::all();
         else{
             $movies = Movies::query()->with('users')->whereRelation('users','user_id',$userid)->get();
-//            $movies = Movies::query()
-//                ->select(
-//                    'movies.id as id',
-//                    'user_movie.id as fav_id',
-//                    'movies.title as title',
-//                    'movies.description as description',
-//                    'movies.release_date as release_date',
-//                    'movies.poster as poster',
-//                    'movies.published as published',
-//                    'movies.likes as likes'
-//                )
-//                ->join('user_movie','movies.id','=','user_movie.movie_id')
-//                ->where('user_movie.user_id','=',$userid)
-//                ->get();
         }
         return view('Movies.movies')->with(compact('movies'));
     }

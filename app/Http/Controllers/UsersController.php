@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Movies;
 use App\Models\User;
-use http\Env\Request;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-    public function index($from,$to)
+    public function index(Request $request)
     {
-//        dd($request);
-        $users = User::with('movies')->get();
+        $users = User::whereHas('movies',function ($query) use ($request){
+            $query->whereBetween('release_date',[$request->get('from'),$request->get('to')]);
+        })->get();
+
         return view('users')->with(compact('users'));
     }
 }

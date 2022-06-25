@@ -31,8 +31,6 @@ Route::group(['middleware' => 'auth'], function (){
     Route::get('movies/favourite/{id}',[MoviesController::class,'favourite'])->name('movies.favourite');
 
     Route::get('users',[UsersController::class,'index'])->name('users');
-//    Route::get('users/{from}&{to}',[UsersController::class,'index'])->name('users');
-//    Route::view('movies','movies')->name('movies');
 });
 
 
